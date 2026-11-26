@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import sys
 import tarfile
 from tempfile import TemporaryDirectory
 from urllib.error import URLError
@@ -29,6 +30,8 @@ def main():
     parser.add_argument("--check", action="store_true")
     parser.add_argument("destination", nargs="?", type=Path)
     args = parser.parse_args()
+    if not sys.platform.startswith("linux"):
+        parser.error("Home Assistant migration is for Linux. On Windows, use launch-agent.py for local chat.")
     os.umask(0o077)
 
     try:
